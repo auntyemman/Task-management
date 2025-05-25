@@ -24,7 +24,7 @@
 
 ## Description
 
-Task manager that allows task management and filtering tasks by status (all, pending, completed) and searching by title. This also give statistics of task completion rate.
+Task manager that allows task management and filtering tasks by status (all, pending, completed) and searching by title. This also gives statistics of task completion rate.
 
 ## Project setup
 
@@ -66,21 +66,22 @@ $ npm run test:cov
 ```
 
 ## frontend connection to Ably update
-<script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
-<script>
-  const ably = new Ably.Realtime({ key: 'your-public-key', clientId: 'browser-client' });
+```html
+  <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+  <script>
+    const ably = new Ably.Realtime({ key: 'your-public-key', clientId: 'browser-client' });
 
-  const channel = ably.channels.get('task');
+    const channel = ably.channels.get('task');
 
-  channel.subscribe('task-event', message => {
-    console.log('[Task Event Received]', message.data);
-  });
+    channel.subscribe('task-event', message => {
+      console.log('[Task Event Received]', message.data);
+    });
 
-  ably.connection.on('connected', () => console.log('Connected to Ably'));
-  ably.connection.on('disconnected', () => console.warn('Disconnected from Ably'));
-  ably.connection.on('reconnecting', () => console.log('Reconnecting...'));
-</script>
-
+    ably.connection.on('connected', () => console.log('Connected to Ably'));
+    ably.connection.on('disconnected', () => console.warn('Disconnected from Ably'));
+    ably.connection.on('reconnecting', () => console.log('Reconnecting...'));
+  </script>
+```
 
 ## Deployment
 
