@@ -24,12 +24,19 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Task manager that allows task management and filtering tasks by status (all, pending, completed) and searching by title. This also give statistics of task completion rate.
 
 ## Project setup
 
 ```bash
 $ npm install
+```
+
+## Migrate, seed and run the database
+```bash
+$ npm  run migration:run && npm run db:seed
+or
+$ npm run db:migrate-and-seed
 ```
 
 ## Compile and run the project
@@ -57,6 +64,23 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## frontend connection to Ably update
+<script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+<script>
+  const ably = new Ably.Realtime({ key: 'your-public-key', clientId: 'browser-client' });
+
+  const channel = ably.channels.get('task');
+
+  channel.subscribe('task-event', message => {
+    console.log('[Task Event Received]', message.data);
+  });
+
+  ably.connection.on('connected', () => console.log('Connected to Ably'));
+  ably.connection.on('disconnected', () => console.warn('Disconnected from Ably'));
+  ably.connection.on('reconnecting', () => console.log('Reconnecting...'));
+</script>
+
 
 ## Deployment
 
