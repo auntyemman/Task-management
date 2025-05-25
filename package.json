@@ -17,7 +17,37 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+
+    "// Migration Scripts": "=== TypeORM Migration Commands ===",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/shared/database/data-source.ts",
+    "migration:create": "typeorm-ts-node-commonjs migration:create",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/shared/database/data-source.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/shared/database/data-source.ts",
+    "migration:show": "typeorm-ts-node-commonjs migration:show -d src/shared/database/data-source.ts",
+    
+    "// Schema Scripts": "=== Database Schema Commands ===",
+    "schema:sync": "typeorm-ts-node-commonjs schema:sync -d src/shared/database/data-source.ts",
+    "schema:drop": "typeorm-ts-node-commonjs schema:drop -d src/shared/database/data-source.ts",
+    
+    "// Seeding Scripts": "=== Database Seeding Commands ===",
+    "db:seed": "ts-node -r tsconfig-paths/register scripts/seed.ts",
+    "db:seed:tasks": "ts-node -r tsconfig-paths/register scripts/seed.ts tasks",
+    "// db:seed:users": "ts-node -r tsconfig-paths/register scripts/seed.ts users",
+    
+    "// Clearing Scripts": "=== Database Clearing Commands ===",
+    "db:clear": "ts-node -r tsconfig-paths/register scripts/clear-table.ts",
+    "db:clear:tasks": "ts-node -r tsconfig-paths/register scripts/clear-table.ts tasks",
+    "// db:clear:users": "ts-node -r tsconfig-paths/register scripts/clear-table.ts users",
+    
+    "// Combined Scripts": "=== Combined Operations ===",
+    "db:reset": "npm run schema:drop && npm run migration:run && npm run db:seed",
+    "db:fresh": "npm run migration:run && npm run db:seed",
+    "db:migrate-and-seed": "npm run migration:run && npm run db:seed",
+    
+    "// Production Scripts": "=== Production Deployment ===",
+    "deploy:migrate": "npm run build && npm run migration:run",
+    "deploy:full": "npm run build && npm run migration:run && npm run db:seed"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.15",
