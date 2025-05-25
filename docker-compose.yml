@@ -8,8 +8,6 @@ services:
       POSTGRES_DB: menaget
     ports:
       - '6432:5432'
-    networks:
-      - menaget-net
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U menaget -d menaget']
       interval: 5s

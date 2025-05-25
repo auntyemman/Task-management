@@ -32,9 +32,11 @@
     "class-validator": "^0.14.2",
     "install": "^0.13.0",
     "npm": "^11.4.1",
+    "pg": "^8.16.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "task-management": "file:"
+    "task-management": "file:",
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.6",

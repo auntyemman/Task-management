@@ -2,10 +2,21 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TaskModule } from './task/task.module';
-import { AblyModule } from './shared';
+import { AblyModule, DatabaseModule } from './shared';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AblyModule, TaskModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    ScheduleModule.forRoot(),
+    DatabaseModule,
+    AblyModule,
+    TaskModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

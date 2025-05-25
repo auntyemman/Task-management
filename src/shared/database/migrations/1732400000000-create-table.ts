@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, Index } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
 
 export class CreateTaskTable1732400000000 implements MigrationInterface {
   name = 'CreateTaskTable1732400000000';
@@ -53,34 +53,28 @@ export class CreateTaskTable1732400000000 implements MigrationInterface {
             onUpdate: 'CURRENT_TIMESTAMP',
           },
         ],
+        // Add indexes directly to the table definition
+        indices: [
+          new TableIndex({
+            name: 'IDX_TASK_STATUS',
+            columnNames: ['status'],
+          }),
+          new TableIndex({
+            name: 'IDX_TASK_CREATED_AT',
+            columnNames: ['createdAt'],
+          }),
+          new TableIndex({
+            name: 'IDX_TASK_TITLE',
+            columnNames: ['title'],
+          }),
+        ],
       }),
       true,
-    );
-
-    // Create indexes for better query performance
-    await queryRunner.createIndex(
-      'tasks',
-      new Index('IDX_TASK_STATUS', ['status']),
-    );
-
-    await queryRunner.createIndex(
-      'tasks',
-      new Index('IDX_TASK_CREATED_AT', ['createdAt']),
-    );
-
-    await queryRunner.createIndex(
-      'tasks',
-      new Index('IDX_TASK_TITLE', ['title']),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // Drop indexes
-    await queryRunner.dropIndex('tasks', 'IDX_TASK_TITLE');
-    await queryRunner.dropIndex('tasks', 'IDX_TASK_CREATED_AT');
-    await queryRunner.dropIndex('tasks', 'IDX_TASK_STATUS');
-
-    // Drop tasks table
+    // Drop tasks table (this will automatically drop the indexes)
     await queryRunner.dropTable('tasks');
 
     // Drop enum type

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AblyService } from '../../shared';
+import { AblyService } from '../../shared/ably/ably.service';
 import { Task } from '../entities';
 
 @Injectable()

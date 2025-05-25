@@ -19,7 +19,7 @@ import {
   TaskResponseDto,
 } from '../dto';
 import { Task, TaskStatus } from '../entities';
-import { ApiResponse } from '../../shared';
+import { ApiResponse, PaginationResult } from '../../shared';
 
 @Controller('tasks')
 export class TaskController {
@@ -36,13 +36,12 @@ export class TaskController {
   @Get()
   async getAllTasks(
     @Query() queryDto: TaskQueryDto,
-    @Req() request: Request,
-  ): Promise<PaginatedResponse<TaskResponseDto[]>> {
+  ): Promise<ApiResponse<PaginationResult<Task>>> {
     const result = await this.taskService.getAllTasks(queryDto);
-    return {
-      ...result,
-      path: request.url,
-    };
+    return new ApiResponse<PaginationResult<Task>>(
+      'Tasks retrieved successfully',
+      result,
+    );
   }
 
   @Get(':id')
@@ -81,7 +80,7 @@ export class TaskController {
     @Param('status') status: TaskStatus,
   ): Promise<ApiResponse<Task>> {
     const result = await this.taskService.getTasksByStatus(status);
-    return new ApiResponse<Task>('Task retrieved successfully', result);
+    return new ApiResponse<Task>('Tasks retrieved successfully', result);
   }
 
   @Get('search/:term')
@@ -89,7 +88,7 @@ export class TaskController {
     @Param('term') searchTerm: string,
   ): Promise<ApiResponse<Task>> {
     const result = await this.taskService.searchTasks(searchTerm);
-    return new ApiResponse<Task>('Task retrieved successfully', result);
+    return new ApiResponse<Task>('Tasks retrieved successfully', result);
   }
 
   @Get('stats/overview')
@@ -107,7 +106,7 @@ export class TaskController {
       pending: number;
       completed: number;
       completionRate: number;
-    }>('Task retrieved successfully', result);
+    }>('Task statistics retrieved successfully', result);
   }
 
 }

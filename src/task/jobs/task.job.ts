@@ -1,18 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { TaskService } from '../services/task.service';
 import { TaskStatus } from '../entities/task.entity';
 import { DataSource } from 'typeorm';
-import { TaskEventPublisher } from '../events';
+import { TaskEventPublisher } from '../events/task-event.publisher';
+import { TaskRepository } from '../respositories/task.repository';
 
 @Injectable()
 export class TaskSchedulerService {
   private readonly logger = new Logger(TaskSchedulerService.name);
 
   constructor(
-    private readonly taskService: TaskService,
+    private readonly taskRepo: TaskRepository,
+    private readonly taskEventPublisher: TaskEventPublisher,
     private readonly dataSource: DataSource,
-    private readonly taskEventPublisher: TaskEventPublisher
   ) {}
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
@@ -24,7 +24,7 @@ export class TaskSchedulerService {
     this.logger.log('Scheduled job started: Auto-complete old tasks');
 
     try {
-      const oldTasks = await this.taskService.getTasksOlderThan(7);
+      const oldTasks = await this.taskRepo.findTasksOlderThan(7);
 
       if (!oldTasks.length) {
         this.logger.log('No tasks older than 7 days found.');

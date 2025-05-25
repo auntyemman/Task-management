@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { Task } from '../../task';
+import { Task } from '../../task/entities/task.entity';
 
 export class DatabaseConfig {
   static getConfig(configService: ConfigService): TypeOrmModuleOptions {
@@ -16,11 +16,6 @@ export class DatabaseConfig {
       migrationsRun: configService.get<boolean>('DB_MIGRATIONS_RUN', false),
       synchronize: configService.get<boolean>('DB_SYNCHRONIZE', false),
       logging: configService.get<boolean>('DB_LOGGING', false),
-      ssl: configService.get<boolean>('DB_SSL', false)
-        ? {
-            rejectUnauthorized: false,
-          }
-        : false,
     };
   }
 }
