@@ -85,7 +85,10 @@ $ npm run test:cov
 
 ## Deployment
 
-deployed base-url=https://task-management-mpx4.onrender.com
+Deployed base-url=https://task-management-mpx4.onrender.com
+
+## documentation
+Path to postman documentation https://documenter.getpostman.com/view/27918376/2sB2qcD1bv
 
 ## Resources
 
