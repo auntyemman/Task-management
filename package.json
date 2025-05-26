@@ -50,6 +50,7 @@
     "deploy:full": "npm run build && npm run migration:run && npm run db:seed"
   },
   "dependencies": {
+    "@nestjs/cli": "^11.0.6",
     "@nestjs/common": "^11.0.15",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.15",

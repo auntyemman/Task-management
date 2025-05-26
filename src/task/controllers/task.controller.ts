@@ -9,14 +9,12 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { TaskService } from '../services';
 import {
   CreateTaskDto,
   UpdateTaskDto,
   TaskQueryDto,
   TaskParamDto,
-  TaskResponseDto,
 } from '../dto';
 import { Task, TaskStatus } from '../entities';
 import { ApiResponse, PaginationResult } from '../../shared';
