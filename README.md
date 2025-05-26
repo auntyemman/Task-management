@@ -42,6 +42,9 @@ $ npm run db:migrate-and-seed
 ## Compile and run the project
 
 ```bash
+# docker
+$ docker compose up
+
 # development
 $ npm run start
 
